@@ -15,8 +15,9 @@ async function getSurahData(id: string) {
     return result.success ? result.data : null;
 }
 
-export default async function SurahPage({ params }: { params: { id: string } }) {
-    const surahData = await getSurahData(params.id);
+export default async function SurahPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const surahData = await getSurahData(id);
 
     if (!surahData) {
         return (
@@ -29,5 +30,5 @@ export default async function SurahPage({ params }: { params: { id: string } }) 
         );
     }
 
-    return <Ayats surahData={surahData} id={params.id} />;
+    return <Ayats surahData={surahData} id={id} />;
 }
